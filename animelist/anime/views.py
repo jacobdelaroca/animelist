@@ -8,4 +8,4 @@ def viewAll(request):
     anime = Anime.objects.all()
     serializer = AnimeSerializer(anime, many=True)
 
-    return JsonResponse({'anime': serializer.data}, safe=False)
+    return JsonResponse({'anime2': serializer.data}, safe=False)
