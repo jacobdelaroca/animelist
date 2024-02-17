@@ -5,4 +5,10 @@ from rest_framework import serializers
 class AnimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anime
-        fields = ['name', 'genre', 'rating', 'favorite', 'comment']
+        fields = ['name', 'genre', 'rating', 'favorite', 'comment', 'owner']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = User
+        fields = ['id', 'username', 'password', 'email']
