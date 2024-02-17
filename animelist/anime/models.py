@@ -9,10 +9,12 @@ class Anime(models.Model):
     rating = models.IntegerField()
     favorite = models.BooleanField()
     comment = models.CharField(max_length=1000)
+    current_episode = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50)
 
-    # def __str__(self) -> str:
-    #     return self.name
+    def __str__(self) -> str:
+        return self.name
 
 class Animes(models.Model):
     name = models.CharField(max_length=200)
@@ -21,3 +23,4 @@ class Animes(models.Model):
     img = models.CharField(max_length=200)
 
 admin.site.register(Anime)
+admin.site.register(Animes)
