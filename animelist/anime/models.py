@@ -14,4 +14,10 @@ class Anime(models.Model):
     # def __str__(self) -> str:
     #     return self.name
 
+class Animes(models.Model):
+    name = models.CharField(max_length=200)
+    genres = models.CharField(max_length=200)
+    num_of_eps = models.IntegerField()
+    img = models.CharField(max_length=200)
+
 admin.site.register(Anime)
