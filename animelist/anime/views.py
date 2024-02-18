@@ -211,9 +211,47 @@ class SetListPublicView(APIView):
 
 
 class ListPublicView(APIView):
-    def get(self, post):     
+    def get(self, request):     
         users = PublicAnimelist.objects.all()
         serializer = PublicListSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PublicUserListView(APIView):
+    def get(self, post, pk):
+        user = None
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            authorized = PublicAnimelist.objects.get(user=user)
+        except PublicAnimelist.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        animes = Anime.objects.filter(owner=user)
+        serializer = AnimeSerializer(animes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class PublicUserDetailView(APIView):    
+    def get(self, request, pk):
+        anime = None
+        user = None
+       
+        try:
+            anime = Anime.objects.get(id=pk)
+        except Anime.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            authorized = PublicAnimelist.objects.get(user=anime.owner)
+        except PublicAnimelist.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        
+        serializer = AnimeSerializer(anime)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     
